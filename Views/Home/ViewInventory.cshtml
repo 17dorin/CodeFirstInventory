@@ -1,0 +1,8 @@
+﻿@using CodeFirstPractice2.Context
+
+@model List<Item>
+
+@foreach(Item i in Model)
+{
+    <p>@i.ItemName, $@i.Price</p>
+}

@@ -14,5 +14,11 @@ namespace CodeFirstPractice2.Context
 
         [Required]
         public float Price { get; set; }
+
+        [Required]
+        public int Amount { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

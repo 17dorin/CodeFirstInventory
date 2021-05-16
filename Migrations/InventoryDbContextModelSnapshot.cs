@@ -26,9 +26,71 @@ namespace CodeFirstPractice2.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.HasKey("ItemName", "Price");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("CodeFirstPractice2.Context.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("CodeFirstPractice2.Context.OrderItem", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.HasKey("OrderId", "ItemName", "Price");
+
+                    b.HasIndex("ItemName", "Price");
+
+                    b.ToTable("OrderItem");
+                });
+
+            modelBuilder.Entity("CodeFirstPractice2.Context.OrderItem", b =>
+                {
+                    b.HasOne("CodeFirstPractice2.Context.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodeFirstPractice2.Context.Item", "Item")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ItemName", "Price")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("CodeFirstPractice2.Context.Item", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("CodeFirstPractice2.Context.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }
